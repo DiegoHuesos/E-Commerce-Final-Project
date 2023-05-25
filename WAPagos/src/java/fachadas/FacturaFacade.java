@@ -23,7 +23,7 @@ public class FacturaFacade extends AbstractFacade<Factura> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
-    }
+    }    
 
     public FacturaFacade() {
         super(Factura.class);

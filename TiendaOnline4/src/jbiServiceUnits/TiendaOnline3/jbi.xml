@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns0="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3" xmlns:ns1="http://wspagos/" xmlns:ns2="http://wsalmacen/" xmlns:ns3="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:ns4="http://www.sun.com/jbi/descriptor/service-unit" version="1.0">
+    <services binding-component="false">
+        <provides endpoint-name="PedidoLibrosPortTypeRole_myRole" interface-name="ns3:PedidoLibrosPortType" service-name="ns0:PartnerLink1">
+            <ns4:display-name>PartnerLink1</ns4:display-name>
+            <ns4:process-name>tiendaOnline3</ns4:process-name>
+            <ns4:file-path>tiendaOnline3.bpel</ns4:file-path>
+        </provides>
+        <consumes endpoint-name="WSPagosRole_partnerRole" interface-name="ns1:WSPagos" service-name="ns0:WSPagos">
+            <ns4:display-name>WSPagos</ns4:display-name>
+            <ns4:process-name>tiendaOnline3</ns4:process-name>
+            <ns4:file-path>tiendaOnline3.bpel</ns4:file-path>
+        </consumes>
+        <consumes endpoint-name="WSAlmacenRole_partnerRole" interface-name="ns2:WSAlmacen" service-name="ns0:WSAlmacen">
+            <ns4:display-name>WSAlmacen</ns4:display-name>
+            <ns4:process-name>tiendaOnline3</ns4:process-name>
+            <ns4:file-path>tiendaOnline3.bpel</ns4:file-path>
+        </consumes>
+    </services>
+</jbi>

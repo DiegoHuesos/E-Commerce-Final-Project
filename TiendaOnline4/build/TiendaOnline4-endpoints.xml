@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<endpoints xmlns="http://xml.netbeans.org/schema/endPoints" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xml.netbeans.org/schema/endPoints endPoints.xsd">
+    <project>
+        <name>TiendaOnline4</name>
+        <version>1.0</version>
+        <description>description</description>
+    </project>
+    <team>
+        <name>unknown team</name>
+        <contact>no contact provided</contact>
+    </team>
+    <endpoint>
+        <type>provider</type>
+        <endpoint-name>PedidoLibrosPortTypeRole_myRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3</namespace>
+            <localname>PartnerLink1</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros</namespace>
+            <localname>PedidoLibrosPortType</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSPagosRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3</namespace>
+            <localname>WSPagos</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://wspagos/</namespace>
+            <localname>WSPagos</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSAlmacenRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3</namespace>
+            <localname>WSAlmacen</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://wsalmacen/</namespace>
+            <localname>WSAlmacen</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+</endpoints>

@@ -1,0 +1,10 @@
+Los argumentos son:
+args[0]:uno
+args[1]:dos
+args[2]:tres
+Los argumentos son:
+args[0]:uno
+args[1]:dos
+args[2]:tres
+args[3]:cuatro
+args[4]:mil

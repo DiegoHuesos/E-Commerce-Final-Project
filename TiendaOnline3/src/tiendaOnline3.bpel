@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="tiendaOnline3"
+    targetNamespace="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:ns0="http://xml.netbeans.org/schema/TiendaOnlineXML">
+    <import namespace="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" location="PedidoLibros.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WSPagosWrapper" location="WSPagosWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://wspagos/" location="http://localhost:8080/WAPagos/WSPagos?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WSAlmacenWrapper" location="WSAlmacenWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://wsalmacen/" location="http://localhost:8080/WAAlmacen/WSAlmacen?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WSEntregasWrapper" location="WSEntregasWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://wsentregas/" location="http://localhost:8080/WAEntregas/WSEntregas?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="WSPagos" xmlns:tns="http://enterprise.netbeans.org/bpel/WSPagosWrapper" partnerLinkType="tns:WSPagosLinkType" partnerRole="WSPagosRole"/>
+        <partnerLink name="WSAlmacen" xmlns:tns="http://enterprise.netbeans.org/bpel/WSAlmacenWrapper" partnerLinkType="tns:WSAlmacenLinkType" partnerRole="WSAlmacenRole"/>
+        <partnerLink name="WSEntregas" xmlns:tns="http://enterprise.netbeans.org/bpel/WSEntregasWrapper" partnerLinkType="tns:WSEntregasLinkType" partnerRole="WSEntregasRole"/>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" partnerLinkType="tns:PedidoLibros" myRole="PedidoLibrosPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="CrearFacturaOut" xmlns:tns="http://wspagos/" messageType="tns:crearFacturaResponse"/>
+        <variable name="CrearFacturaIn" xmlns:tns="http://wspagos/" messageType="tns:crearFactura"/>
+        <variable name="RegresaLibrosOut" xmlns:tns="http://wsalmacen/" messageType="tns:regresaLibrosResponse"/>
+        <variable name="RegresaLibrosIn" xmlns:tns="http://wsalmacen/" messageType="tns:regresaLibros"/>
+        <variable name="RestarSaldoOut" xmlns:tns="http://wspagos/" messageType="tns:restarSaldoResponse"/>
+        <variable name="RestarSaldoIn" xmlns:tns="http://wspagos/" messageType="tns:restarSaldo"/>
+        <variable name="CheckMontoOut" xmlns:tns="http://wspagos/" messageType="tns:checkMontoResponse"/>
+        <variable name="CheckMontoIn" xmlns:tns="http://wspagos/" messageType="tns:checkMonto"/>
+        <variable name="CalculaMontoTotalOut" xmlns:tns="http://wsalmacen/" messageType="tns:calculaMontoTotalResponse"/>
+        <variable name="CalculaMontoTotalIn" xmlns:tns="http://wsalmacen/" messageType="tns:calculaMontoTotal"/>
+        <variable name="RestarListaLibrosOut" xmlns:tns="http://wsalmacen/" messageType="tns:restarListaLibrosResponse">
+            <sxed:editor>
+                <sxed:predicate path="$RestarListaLibrosOut.parameters/return[$itMonto]" source="from"/>
+                <sxed:predicate path="$RestarListaLibrosOut.parameters/return[$ForEach1Counter]" source="from"/>
+            </sxed:editor>
+        </variable>
+        <variable name="RestarListaLibrosIn" xmlns:tns="http://wsalmacen/" messageType="tns:restarListaLibros">
+            <sxed:editor>
+                <sxed:predicate path="$RestarListaLibrosIn.parameters/parameter[$itLibros]" source="to"/>
+            </sxed:editor>
+        </variable>
+        <variable name="ValidarUsuarioOut" xmlns:tns="http://wspagos/" messageType="tns:validarUsuarioResponse"/>
+        <variable name="ValidarUsuarioIn" xmlns:tns="http://wspagos/" messageType="tns:validarUsuario"/>
+        <variable name="PedidoLibrosOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" messageType="tns:PedidoLibrosOperationResponse"/>
+        <variable name="PedidoLibrosOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" messageType="tns:PedidoLibrosOperationRequest">
+            <sxed:editor>
+                <sxed:predicate path="$PedidoLibrosOperationIn.part1/ns0:pedidos[$itLibros]" source="from"/>
+            </sxed:editor>
+        </variable>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="PedidoLibrosOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" portType="tns:PedidoLibrosPortType" variable="PedidoLibrosOperationIn"/>
+        <assign name="Assign1">
+            <copy>
+                <from>$PedidoLibrosOperationIn.part1/ns0:numTarjeta</from>
+                <to>$ValidarUsuarioIn.parameters/numTarjeta</to>
+            </copy>
+        </assign>
+        <invoke name="validaUsuario" partnerLink="WSPagos" operation="validarUsuario" xmlns:tns="http://wspagos/" portType="tns:WSPagos" inputVariable="ValidarUsuarioIn" outputVariable="ValidarUsuarioOut"/>
+        <if name="If-UsuarioValido">
+            <condition>$ValidarUsuarioOut.parameters/return &gt; 0</condition>
+            <sequence name="Sequence1">
+                <forEach name="asignaLibrosAAlmacen" parallel="no" counterName="itLibros">
+                    <startCounterValue>1</startCounterValue>
+                    <finalCounterValue>count($PedidoLibrosOperationIn.part1/ns0:pedidos)</finalCounterValue>
+                    <scope name="Scope1">
+                        <sequence name="Sequence3">
+                            <assign name="Assign2">
+                                <copy>
+                                        <from>$PedidoLibrosOperationIn.part1/ns0:pedidos[$itLibros]/ns0:isbn
+                                    <sxed:editor>
+                                                        <sxed:predicate path="$PedidoLibrosOperationIn.part1/ns0:pedidos[$itLibros]" source="from"/>
+                                                    </sxed:editor>
+                                            </from>
+                                            <to>$RestarListaLibrosIn.parameters/parameter[$itLibros]/isbn
+                                    <sxed:editor>
+                                                        <sxed:predicate path="$RestarListaLibrosIn.parameters/parameter[$itLibros]" source="to"/>
+                                                    </sxed:editor>
+                                            </to>
+                                    </copy>
+                                    <copy>
+                                        <from>$PedidoLibrosOperationIn.part1/ns0:pedidos[$itLibros]/ns0:cantidad
+                                    <sxed:editor>
+                                                        <sxed:predicate path="$PedidoLibrosOperationIn.part1/ns0:pedidos[$itLibros]" source="from"/>
+                                                    </sxed:editor>
+                                            </from>
+                                            <to>$RestarListaLibrosIn.parameters/parameter[$itLibros]/cantidad
+                                    <sxed:editor>
+                                                        <sxed:predicate path="$RestarListaLibrosIn.parameters/parameter[$itLibros]" source="to"/>
+                                                    </sxed:editor>
+                                            </to>
+                                    </copy>
+                            </assign>
+                        </sequence>
+                    </scope>
+                </forEach>
+                <invoke name="asigaAAlmacen" partnerLink="WSAlmacen" operation="restarListaLibros" xmlns:tns="http://wsalmacen/" portType="tns:WSAlmacen" inputVariable="RestarListaLibrosIn" outputVariable="RestarListaLibrosOut"/>
+                <forEach name="asignaParaMonto" parallel="no" counterName="itMonto">
+                    <startCounterValue>1</startCounterValue>
+                    <finalCounterValue>count($RestarListaLibrosOut.parameters/return)</finalCounterValue>
+                    <scope name="Scope2">
+                        <assign name="Assign4">
+                            <copy>
+                                <from>$RestarListaLibrosOut.parameters/return</from>
+                                <to>$CalculaMontoTotalIn.parameters/parameter</to>
+                            </copy>
+                        </assign>
+                    </scope>
+                </forEach>
+                <invoke name="calculaMontoTotal" partnerLink="WSAlmacen" operation="calculaMontoTotal" xmlns:tns="http://wsalmacen/" portType="tns:WSAlmacen" inputVariable="CalculaMontoTotalIn" outputVariable="CalculaMontoTotalOut"/>
+                <assign name="Assign5">
+                    <copy>
+                        <from>$CalculaMontoTotalOut.parameters/return</from>
+                        <to>$CheckMontoIn.parameters/monto</to>
+                    </copy>
+                    <copy>
+                        <from>$PedidoLibrosOperationIn.part1/ns0:numTarjeta</from>
+                        <to>$CheckMontoIn.parameters/numTarjeta</to>
+                    </copy>
+                </assign>
+                <invoke name="restaFondos" partnerLink="WSPagos" operation="restarSaldo" xmlns:tns="http://wspagos/" portType="tns:WSPagos" inputVariable="RestarSaldoIn" outputVariable="RestarSaldoOut"/>
+                <assign name="Assign6">
+                    <copy>
+                        <from>$CheckMontoOut.parameters/return</from>
+                        <to>$PedidoLibrosOperationOut.part1/ns0:newElement</to>
+                    </copy>
+                </assign>
+                <if name="If-FondosSuficientes">
+                    <condition>$RestarSaldoOut.parameters/return &gt; 0</condition>
+                    <sequence name="Sequence4">
+                        <assign name="AssignNumTarjeta">
+                            <copy>
+                                <from>$PedidoLibrosOperationIn.part1/ns0:numTarjeta</from>
+                                <to>$CrearFacturaIn.parameters/numTarjeta</to>
+                            </copy>
+                        </assign>
+                        <invoke name="InvokeCrearFactura" partnerLink="WSPagos" operation="crearFactura" xmlns:tns="http://wspagos/" portType="tns:WSPagos" inputVariable="CrearFacturaIn" outputVariable="CrearFacturaOut"/>
+                        <forEach name="ForEachVinculaLibros" parallel="no" counterName="ForEach1Counter">
+                            <startCounterValue>1</startCounterValue>
+                            <finalCounterValue>count($RestarListaLibrosOut.parameters/return)</finalCounterValue>
+                            <scope name="Scope3">
+                                <variables>
+                                    <variable name="VincularLibroOut" xmlns:tns="http://wspagos/" messageType="tns:vincularLibroResponse"/>
+                                    <variable name="VincularLibroIn" xmlns:tns="http://wspagos/" messageType="tns:vincularLibro"/>
+                                </variables>
+                                <sequence name="Sequence5">
+                                    <assign name="Assign7">
+                                        <copy>
+                                            <from>$CrearFacturaOut.parameters/return</from>
+                                            <to>$VincularLibroIn.parameters/idFactura</to>
+                                        </copy>
+                                        <copy>
+                                            <from>$RestarListaLibrosOut.parameters/return[$ForEach1Counter]/isbn
+                                                <sxed:editor>
+                                                    <sxed:predicate path="$RestarListaLibrosOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                                </sxed:editor>
+                                            </from>
+                                            <to>$VincularLibroIn.parameters/isbn</to>
+                                        </copy>
+                                        <copy>
+                                            <from>$RestarListaLibrosOut.parameters/return[$ForEach1Counter]/cantidad
+                                                <sxed:editor>
+                                                    <sxed:predicate path="$RestarListaLibrosOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                                </sxed:editor>
+                                            </from>
+                                            <to>$VincularLibroIn.parameters/cantidad</to>
+                                        </copy>
+                                    </assign>
+                                    <invoke name="InvokeVincularFactura" partnerLink="WSPagos" operation="vincularLibro" xmlns:tns="http://wspagos/" portType="tns:WSPagos" inputVariable="VincularLibroIn" outputVariable="VincularLibroOut"/>
+                                </sequence>
+                            </scope>
+                        </forEach>
+                        <invoke name="InvokeCrearEnvio"/>
+                    </sequence>
+                    <else>
+                        <sequence name="Sequence2">
+                            <assign name="AsignSaldoInsuficienteError">
+                                <copy>
+                                    <from>'El saldo del cliente es insuficiente. '</from>
+                                    <to>$PedidoLibrosOperationOut.part1/ns0:newElement</to>
+                                </copy>
+                                <copy>
+                                    <from>$RestarListaLibrosOut.parameters/return</from>
+                                    <to>$RegresaLibrosIn.parameters/parameter</to>
+                                </copy>
+                            </assign>
+                            <invoke name="InvokeRegresaLibros" partnerLink="WSAlmacen" operation="regresaLibros" xmlns:tns="http://wsalmacen/" portType="tns:WSAlmacen" inputVariable="RegresaLibrosIn" outputVariable="RegresaLibrosOut"/>
+                        </sequence>
+                    </else>
+                </if>
+            </sequence>
+            <else>
+                <assign name="Assign3">
+                    <copy>
+                        <from>'El usuario no está registrado. Favor de registrarse.'</from>
+                        <to>$PedidoLibrosOperationOut.part1/ns0:newElement</to>
+                    </copy>
+                </assign>
+            </else>
+        </if>
+        <reply name="Reply1" partnerLink="PartnerLink1" operation="PedidoLibrosOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" portType="tns:PedidoLibrosPortType" variable="PedidoLibrosOperationOut"/>
+    </sequence>
+</process>

@@ -1,0 +1,21 @@
+<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tien="http://xml.netbeans.org/schema/TiendaOnlineXML">
+  <soapenv:Body>
+    <tien:InputElement>
+      <!--Optional:-->
+      <tien:numTarjeta>12345</tien:numTarjeta>
+      <!--1 or more repetitions:-->
+      <tien:pedidos>
+        <tien:isbn>a234567898765</tien:isbn>
+        <tien:cantidad>1</tien:cantidad>
+      </tien:pedidos>
+      <tien:pedidos>
+        <tien:isbn>c234567298765</tien:isbn>
+        <tien:cantidad>1</tien:cantidad>
+      </tien:pedidos>
+      <tien:pedidos>
+        <tien:isbn>d234167898765</tien:isbn>
+        <tien:cantidad>11</tien:cantidad>
+      </tien:pedidos>
+    </tien:InputElement>
+  </soapenv:Body>
+</soapenv:Envelope>

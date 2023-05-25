@@ -79,13 +79,16 @@ public class WSPagos {
      * Web service operation
      */
     @WebMethod(operationName = "restarSaldo")
-    public Boolean restarSaldo(@WebParam(name = "monto") Double monto, @WebParam(name = "numTarjeta") String numTarjeta) {
+    public int restarSaldo(@WebParam(name = "monto") Double monto, @WebParam(name = "numTarjeta") String numTarjeta) {
         double saldo = ejbRef.getSaldo(numTarjeta);
         if (monto > saldo) {
-            return false;
+            return -1;
         } else {
-            ejbRef.restarSaldo(monto, numTarjeta);
-            return true;
+            if (ejbRef.restarSaldo(monto, numTarjeta)) {
+                return 1;
+            } else {
+                return -1;   
+            }
         }
     }
 
@@ -94,13 +97,31 @@ public class WSPagos {
      */
     @WebMethod(operationName = "checkMonto")
     public Integer checkMonto(@WebParam(name = "monto") double monto, @WebParam(name = "numTarjeta") String numTarjeta) {
-        // Regresa meses sin intereses
-        Random random = new Random();
         double saldo = ejbRef.getSaldo(numTarjeta);
-        if (monto > saldo) {
+        if (saldo == -1) {
+            return -2;
+        } else if (monto > saldo) {
             return -1;
         } else {
-            return random.nextInt(12) + 1;
+            return 1;
         }
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "crearFactura")
+    public Integer crearFactura(@WebParam(name = "numTarjeta") String numTarjeta) {
+        int idFactura = ejbRef.crearFactura(numTarjeta);
+        return idFactura;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "vincularLibro")
+    public Boolean vincularLibro(@WebParam(name = "idFactura") int idFactura, @WebParam(name = "cantidad") int cantidad, @WebParam(name = "isbn") String isbn) {
+        boolean libroVinculado = ejbRef.vincularLibro(idFactura, cantidad, isbn);
+        return libroVinculado;
     }
 }

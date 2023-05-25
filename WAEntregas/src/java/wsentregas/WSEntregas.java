@@ -68,9 +68,9 @@ public class WSEntregas {
      * Web service operation
      */
     @WebMethod(operationName = "crearEnvio")
-    public ArrayList crearEnvio(@WebParam(name = "idFactura") int idFactura) {
-        //TODO write your implementation code here:
-        return null;
+    public String crearEnvio(@WebParam(name = "idFactura") int idFactura) {
+        String info = ejbRef.crearEnvio(idFactura);
+        return info;
     }
     
 }

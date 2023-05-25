@@ -8,3 +8,5 @@ INSERT INTO Libros (isbn, nombre, cantidad) VALUES
 INSERT INTO Usuario (nombre, apellido, domicilio, saldo, numTarjeta, puntajeCrediticio) VALUES
 ('Mariano', 'Franco', 'Casa 1', 1000.0, '12345', 500),
 ('Diego', 'HernandezHD', 'Casa 2', 200.0, '12245', 800);
+
+CREATE SEQUENCE id_factura AS INT START WITH 2 INCREMENT by 1

@@ -6,7 +6,11 @@
 package fachadas;
 
 import entidades.Usuario;
+import entidades.Libros;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,12 +38,29 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
      */
     public int checkUsuario(String numTarjeta) {
 //        SELECT u.id FROM Usuario u WHERE u.numtarjeta = '12345'
-        String strQuery = "SELECT u.id FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
-        em = getEntityManager();
-        Query query = em.createQuery(strQuery);
-        return (int) (query.getSingleResult());
+        try {
+            String strQuery = "SELECT u.id FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(strQuery);
+            return (int) (query.getSingleResult());
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+
     }
     
+    public int checkCreditScore(String numTarjeta) {
+        try {
+            String strQuery = "SELECT u.puntajecrediticio FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(strQuery);
+            return (int) (query.getSingleResult());
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+    }
     
     /*
     String strQuery = "SELECT u.saldo FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
@@ -48,11 +69,16 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return (double) (query.getSingleResult());
     */
     public double getSaldo(String numTarjeta){
-        String strQuery = "SELECT u.saldo FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
-        em = getEntityManager();
-        Query query = em.createQuery(strQuery);
-        BigDecimal bd =  (BigDecimal) (query.getSingleResult()); 
-        return bd.doubleValue();
+        try {
+            String strQuery = "SELECT u.saldo FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(strQuery);
+            BigDecimal bd =  (BigDecimal) (query.getSingleResult()); 
+            return bd.doubleValue();
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
     }
         
     /**
@@ -65,11 +91,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public boolean restarSaldo(double monto, String numTarjeta) {
         try{
             // "UPDATE  table_name\n SET     field_name = GREATEST(0, field_name - $subtract_value)\n WHERE   id = $row_id";
+            
+            // Me pasas id factura, num tarjeta y restas saldos de esta factura
             String strQuery = "UPDATE Usuario u SET  u.saldo = (u.saldo - " + Double.toString(monto)  + ") WHERE u.numtarjeta = " + numTarjeta;
             em = getEntityManager();
             Query query = em.createQuery(strQuery);
-            return true;
-        }catch(Exception ex){
+            int status = query.executeUpdate();
+
+            return status == 1;
+        } catch(Exception ex){
             System.out.println("Error restarSaldo:  " + ex.getMessage());
             return false;
         }
@@ -77,6 +107,105 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    public int next_id_factura() {
+        em = getEntityManager();
+        int intRes = (int) em.createNativeQuery("VALUES (NEXT VALUE FOR ID_FACTURA)").getSingleResult();
+        Logger.getAnonymousLogger().log(Level.SEVERE,"El valor del folio de pedidos es:" + intRes);
+        return intRes;
+    }
+    
+    public int getIdFactura(String fecha) {
+        try {
+            String strQuery = "SELECT f.id FROM Factura f WHERE f.fecha = '" + fecha + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(strQuery);
+            return (int) (query.getSingleResult());
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+    }
+    
+    public int crearFactura(String numTarjeta) {
+
+        try{
+            String strQuery;
+            em = getEntityManager();
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+            String currentDateAsStr = currentTimestamp.toString();
+            
+            int creditScore = checkCreditScore(numTarjeta);
+            double descuento = 0.0;
+            if (creditScore < 600) {
+                descuento = 0.0;
+            } else if (creditScore < 700) {
+                descuento = 25.0;
+            } else if (creditScore <= 800) {
+                descuento = 50.0;
+            }
+            
+            strQuery = "INSERT INTO Factura (montoTotal, fecha, numTarjeta, descuento) values ( 0 ,'" + currentDateAsStr + "', '" + numTarjeta +  "', " + descuento +  ")";
+            int insertedRows = em.createNativeQuery(strQuery).executeUpdate();
+            System.out.println("INSERTED ROWS: " + insertedRows);
+            
+            int idFactura = getIdFactura(currentDateAsStr);
+            return idFactura;
+
+        }catch(Exception ex){
+            return -1;
+        }
+    }
+    
+    public double getPrecioDeISBN(String isbn) {
+        try {
+            String strQuery = "SELECT l.precio FROM Libros l WHERE l.isbn = '" + isbn + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(strQuery);
+            BigDecimal bd =  (BigDecimal) (query.getSingleResult()); 
+            return bd.doubleValue();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+    }
+    
+    public boolean insertarListaLibros(String isbn, int cantidad, int idFactura) {
+        try{
+            String insertQuery = "INSERT INTO ListaLibros (isbn, cantidad, factura_id) VALUES ('" + isbn + "', " + cantidad + ", " + idFactura + ")";
+            int insertedRows = em.createNativeQuery(insertQuery).executeUpdate();
+            System.out.println("INSERTED ROWS LISTA LIBROS: " + insertedRows);    
+            return true;
+
+        }catch(Exception ex){
+            return false;
+        }
+    }
+    
+    public boolean vincularLibro(int idFactura, int cantidad, String isbn) {
+
+        try{
+            double precio = getPrecioDeISBN(isbn);
+            if (precio == -1)
+                return false;
+            
+            double montoTotal = precio * cantidad;
+            String updateQuery = "UPDATE Factura f SET f.montototal = f.montototal + " + montoTotal + " WHERE f.id = " + idFactura;
+            em = getEntityManager();
+            Query query = em.createQuery(updateQuery);
+            int status = query.executeUpdate();
+
+            if (status != 1)
+                return false;
+            
+            return insertarListaLibros(isbn, cantidad, idFactura);
+            
+        } catch(Exception ex){
+            System.out.println("Error restarSaldo:  " + ex.getMessage());
+            return false;
+        }
     }
     
 }
