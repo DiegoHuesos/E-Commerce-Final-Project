@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="TiendaOnline4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="TiendaOnline4">
+  <import location="http://CC201-11.mshome.net:9080/TiendaOnline4-sun-http-binding/TiendaOnline3/PedidoLibros.wsdl" namespace="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros">
+    </import>
+  <portType name="dummyCasaPortType">
+  </portType>
+  <binding name="casaBinding1" type="ns:PedidoLibrosPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="PedidoLibrosOperation">
+      <soap:operation/>
+      <input name="input1">
+        <soap:body use="literal"/>
+      </input>
+      <output name="output1">
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="TiendaOnline4Service1">
+    <port binding="tns:casaBinding1" name="casaPort1">
+      <soap:address location="http://CC201-11.mshome.net:9080/TiendaOnline4Service1/casaPort1"/>
+    </port>
+  </service>
+</definitions>

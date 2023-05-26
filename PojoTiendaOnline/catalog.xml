@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:9080/TiendaOnline4Service1/casaPort1?WSDL" uri="xml-resources/web-service-references/casaPort1/wsdl/localhost_9080/TiendaOnline4Service1/casaPort1.wsdl"/>
+    <system systemId="http://CC201-11.mshome.net:9080/TiendaOnline4-sun-http-binding/TiendaOnline3/PedidoLibros.wsdl" uri="xml-resources/web-service-references/casaPort1/wsdl/CC201-11.mshome.net_9080/TiendaOnline4-sun-http-binding/TiendaOnline3/PedidoLibros.wsdl"/>
+    <system systemId="http://CC201-11.mshome.net:9080/TiendaOnline4-sun-http-binding/TiendaOnline3/TiendaOnlineXML.xsd" uri="xml-resources/web-service-references/casaPort1/wsdl/CC201-11.mshome.net_9080/TiendaOnline4-sun-http-binding/TiendaOnline3/TiendaOnlineXML.xsd"/>
+</catalog>

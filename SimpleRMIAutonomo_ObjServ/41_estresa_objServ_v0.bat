@@ -14,8 +14,8 @@ rem set CLTEPOJO=cltepojobpel_tda_011.SolicitadorServicio
 rem
 set ESTRESJAR=tstRMI_objServ.jar
 set INTERFAZ_SERVICIOJAR=ISolicitaServicio.jar
-set POJOJAR=Pojo_Pagos.jar
-set POJO=pojo_pagos.Pojo_Pagos
+set POJOJAR=ObjetoDeServicio.jar
+set POJO=objetodeservicio.ObjetoDeServicio
 
 rem La totalidad de jars debe ester en este directorio
 

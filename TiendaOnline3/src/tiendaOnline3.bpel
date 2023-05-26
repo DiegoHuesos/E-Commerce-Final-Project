@@ -24,6 +24,8 @@
         <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" partnerLinkType="tns:PedidoLibros" myRole="PedidoLibrosPortTypeRole"/>
     </partnerLinks>
     <variables>
+        <variable name="CrearEnvioOut" xmlns:tns="http://wsentregas/" messageType="tns:crearEnvioResponse"/>
+        <variable name="CrearEnvioIn" xmlns:tns="http://wsentregas/" messageType="tns:crearEnvio"/>
         <variable name="CrearFacturaOut" xmlns:tns="http://wspagos/" messageType="tns:crearFacturaResponse"/>
         <variable name="CrearFacturaIn" xmlns:tns="http://wspagos/" messageType="tns:crearFactura"/>
         <variable name="RegresaLibrosOut" xmlns:tns="http://wsalmacen/" messageType="tns:regresaLibrosResponse"/>
@@ -117,20 +119,14 @@
                 <assign name="Assign5">
                     <copy>
                         <from>$CalculaMontoTotalOut.parameters/return</from>
-                        <to>$CheckMontoIn.parameters/monto</to>
+                        <to>$RestarSaldoIn.parameters/monto</to>
                     </copy>
                     <copy>
                         <from>$PedidoLibrosOperationIn.part1/ns0:numTarjeta</from>
-                        <to>$CheckMontoIn.parameters/numTarjeta</to>
+                        <to>$RestarSaldoIn.parameters/numTarjeta</to>
                     </copy>
                 </assign>
                 <invoke name="restaFondos" partnerLink="WSPagos" operation="restarSaldo" xmlns:tns="http://wspagos/" portType="tns:WSPagos" inputVariable="RestarSaldoIn" outputVariable="RestarSaldoOut"/>
-                <assign name="Assign6">
-                    <copy>
-                        <from>$CheckMontoOut.parameters/return</from>
-                        <to>$PedidoLibrosOperationOut.part1/ns0:newElement</to>
-                    </copy>
-                </assign>
                 <if name="If-FondosSuficientes">
                     <condition>$RestarSaldoOut.parameters/return &gt; 0</condition>
                     <sequence name="Sequence4">
@@ -176,7 +172,19 @@
                                 </sequence>
                             </scope>
                         </forEach>
-                        <invoke name="InvokeCrearEnvio"/>
+                        <assign name="AssignNumFacturaCrearEnvio">
+                            <copy>
+                                <from>$CrearFacturaOut.parameters/return</from>
+                                <to>$CrearEnvioIn.parameters/idFactura</to>
+                            </copy>
+                        </assign>
+                        <invoke name="InvokeCrearEnvio" partnerLink="WSEntregas" operation="crearEnvio" xmlns:tns="http://wsentregas/" portType="tns:WSEntregas" inputVariable="CrearEnvioIn" outputVariable="CrearEnvioOut"/>
+                        <assign name="Assign8">
+                            <copy>
+                                <from>$CrearEnvioOut.parameters/return</from>
+                                <to>$PedidoLibrosOperationOut.part1/ns0:newElement</to>
+                            </copy>
+                        </assign>
                     </sequence>
                     <else>
                         <sequence name="Sequence2">

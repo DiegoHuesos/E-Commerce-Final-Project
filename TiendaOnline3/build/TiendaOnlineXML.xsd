@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/TiendaOnlineXML"
+    xmlns:tns="http://xml.netbeans.org/schema/TiendaOnlineXML"
+    elementFormDefault="qualified">
+    
+    <xsd:complexType name="pedido">
+        <xsd:sequence maxOccurs="1">
+            <xsd:element name="isbn" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="cantidad" type="xsd:int"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="ListaLibrosElement" type="tns:pedido"></xsd:element>
+    <xsd:complexType name="Respuesta">
+        <xsd:sequence>
+            <xsd:element name="newElement" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="RespuestaElement" type="tns:Respuesta"></xsd:element>
+    <xsd:complexType name="PedidoInput">
+        <xsd:sequence>
+            <xsd:element name="numTarjeta" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="pedidos" type="tns:pedido" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="InputElement" type="tns:PedidoInput"></xsd:element>
+    <xsd:complexType name="ListaEnteros">
+        <xsd:sequence>
+            <xsd:element name="numeros" type="xsd:int" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="ListaEnterosElement" type="tns:ListaEnteros"></xsd:element>
+    
+</xsd:schema>

@@ -12,12 +12,12 @@ package wsalmacen;
 public class Pedido {
     public String isbn;
     public int cantidad;
-
+    
     public Pedido(){
         this.isbn = null;
         this.cantidad = 0;
     }
-
+    
     public Pedido(String isbn, int cantidad){
         this.isbn = isbn;
         this.cantidad = cantidad;

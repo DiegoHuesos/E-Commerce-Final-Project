@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Diego%20HD/Desktop/ProyectoFinal181866/WAPagos/src/java/wspagos/WSPagos.java</file>
+            <file>file:/C:/SCE/ProyectoFinal/WAPagos/src/java/fachadas/LibrosFacade.java</file>
+            <file>file:/C:/SCE/ProyectoFinal/WAPagos/src/java/fachadas/UsuarioFacade.java</file>
+            <file>file:/C:/SCE/ProyectoFinal/WAPagos/src/java/fachadas/FacturaFacade.java</file>
+            <file>file:/C:/SCE/ProyectoFinal/WAPagos/src/java/entidades/Usuario.java</file>
+            <file>file:/C:/SCE/ProyectoFinal/WAPagos/src/java/wspagos/WSPagos.java</file>
         </group>
     </open-files>
 </project-private>

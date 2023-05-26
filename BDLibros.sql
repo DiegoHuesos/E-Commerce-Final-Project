@@ -3,7 +3,7 @@ CREATE TABLE Libros (
     isbn VARCHAR(32),
     nombre VARCHAR(32),
     precio DECIMAL(10,2),
-    cantidad INT,
+    cantidad INT),
     PRIMARY KEY (id));
 
 CREATE TABLE Usuario (
@@ -13,7 +13,7 @@ CREATE TABLE Usuario (
     domicilio VARCHAR(32),
     saldo DECIMAL(10,2),
     numTarjeta VARCHAR(32),
-    puntajeCrediticio INT,
+    puntajeCrediticio INT),
     PRIMARY KEY (id));
 	
 CREATE TABLE Factura (
@@ -21,14 +21,14 @@ CREATE TABLE Factura (
     montoTotal DECIMAL(10,2),
     fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     numTarjeta VARCHAR(32),
-    mesesSinIntereses INT,
+    mesesSinIntereses INT),
     PRIMARY KEY (id));
 	
 CREATE TABLE Envio (
     id INT  NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 ,INCREMENT BY 1),
     idFactura INT,
     nombrePaqueteria VARCHAR(32),
-    diasAEntrega INT,
+    diasAEntrega INT),
     PRIMARY KEY (id));
 	
 CREATE TABLE ListaLibros (

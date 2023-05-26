@@ -14,7 +14,7 @@
       </tien:pedidos>
       <tien:pedidos>
         <tien:isbn>d234167898765</tien:isbn>
-        <tien:cantidad>11</tien:cantidad>
+        <tien:cantidad>1</tien:cantidad>
       </tien:pedidos>
     </tien:InputElement>
   </soapenv:Body>

@@ -28,8 +28,8 @@ rem ============================================================================
 
 set ESTRESJAR=tstRMI_objServ02.jar
 set INTERFAZ_SERVICIOJAR=ISolicitaServicio.jar
-set POJOJAR=Pojo_Parcial_02.jar
-set POJO=pojo_parcial_02.Pojo_Parcial_02
+set POJOJAR=PojoTiendaOnline.jar
+set POJO=pojotiendaonline.PojoTiendaOnline
 
 set cb=-Djava.rmi.server.codebase=file:%ESTRESJAR%
 set cp=-cp .;%INTERFAZ_SERVICIOJAR%;%ESTRESJAR%;%POJOJAR%

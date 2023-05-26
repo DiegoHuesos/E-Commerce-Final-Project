@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://xml.netbeans.org/schema/TiendaOnlineXML" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PedidoLibros" targetNamespace="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros">
+    <types>
+        <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros">
+            <xsd:import namespace="http://xml.netbeans.org/schema/TiendaOnlineXML" schemaLocation="TiendaOnlineXML.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="PedidoLibrosOperationRequest">
+        <part element="ns:InputElement" name="part1"/>
+    </message>
+    <message name="PedidoLibrosOperationResponse">
+        <part element="ns:RespuestaElement" name="part1"/>
+    </message>
+    <portType name="PedidoLibrosPortType">
+        <operation name="PedidoLibrosOperation">
+            <input message="tns:PedidoLibrosOperationRequest" name="input1"/>
+            <output message="tns:PedidoLibrosOperationResponse" name="output1"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="PedidoLibros">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="PedidoLibrosPortTypeRole" portType="tns:PedidoLibrosPortType"/>
+    </plnk:partnerLinkType>
+</definitions>

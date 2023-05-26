@@ -48,4 +48,17 @@
         </interface-name>
         <description>description of the service provided or consumed through this endPoint</description>
     </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSEntregasRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3</namespace>
+            <localname>WSEntregas</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://wsentregas/</namespace>
+            <localname>WSEntregas</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
 </endpoints>

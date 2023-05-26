@@ -55,7 +55,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             String strQuery = "SELECT u.puntajecrediticio FROM Usuario u WHERE u.numtarjeta = '" + numTarjeta + "'";
             em = getEntityManager();
             Query query = em.createQuery(strQuery);
-            return (int) (query.getSingleResult());
+            return ((Long) query.getSingleResult()).intValue();
         } catch (Exception e) {
             System.out.println(e);
             return -1;
@@ -118,12 +118,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     
     public int getIdFactura(String fecha) {
         try {
-            String strQuery = "SELECT f.id FROM Factura f WHERE f.fecha = '" + fecha + "'";
+//            String strQuery = "SELECT f.id FROM Factura f WHERE f.fecha = '" + fecha + "'";
+            String strQuery = "SELECT COUNT(f.id) FROM Factura f";
             em = getEntityManager();
             Query query = em.createQuery(strQuery);
-            return (int) (query.getSingleResult());
+            return ((Long) query.getSingleResult()).intValue();
         } catch (Exception e) {
-            System.out.println(e);
             return -1;
         }
     }
@@ -153,7 +153,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             int idFactura = getIdFactura(currentDateAsStr);
             return idFactura;
 
-        }catch(Exception ex){
+        } catch(Exception ex) {
+            System.out.println("PORFAVOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOR " + ex);
             return -1;
         }
     }

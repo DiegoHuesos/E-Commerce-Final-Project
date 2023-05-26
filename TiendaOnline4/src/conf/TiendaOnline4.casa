@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://wsalmacen/" xmlns:ns2="http://wspagos/" xmlns:ns3="TiendaOnline4" xmlns:ns4="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:ns5="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3" xmlns:xlink="http://www.w3.org/2000/xlink">
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://wsalmacen/" xmlns:ns2="http://wspagos/" xmlns:ns3="TiendaOnline4" xmlns:ns4="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:ns5="http://wsentregas/" xmlns:ns6="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3" xmlns:xlink="http://www.w3.org/2000/xlink">
     <endpoints>
         <endpoint endpoint-name="WSAlmacenPort" interface-name="ns1:WSAlmacen" name="endpoint1" service-name="ns1:WSAlmacen"/>
         <endpoint endpoint-name="WSPagosPort" interface-name="ns2:WSPagos" name="endpoint2" service-name="ns2:WSPagos"/>
         <endpoint endpoint-name="casaPort1" interface-name="ns4:PedidoLibrosPortType" name="endpoint3" service-name="ns3:TiendaOnline4Service1"/>
-        <endpoint display-name="PartnerLink1" endpoint-name="PedidoLibrosPortTypeRole_myRole" file-path="tiendaOnline3.bpel" interface-name="ns4:PedidoLibrosPortType" name="endpoint4" process-name="tiendaOnline3" service-name="ns5:PartnerLink1"/>
-        <endpoint display-name="WSPagos" endpoint-name="WSPagosRole_partnerRole" file-path="tiendaOnline3.bpel" interface-name="ns2:WSPagos" name="endpoint5" process-name="tiendaOnline3" service-name="ns5:WSPagos"/>
-        <endpoint display-name="WSAlmacen" endpoint-name="WSAlmacenRole_partnerRole" file-path="tiendaOnline3.bpel" interface-name="ns1:WSAlmacen" name="endpoint6" process-name="tiendaOnline3" service-name="ns5:WSAlmacen"/>
+        <endpoint endpoint-name="WSEntregasPort" interface-name="ns5:WSEntregas" name="endpoint4" service-name="ns5:WSEntregas"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="PedidoLibrosPortTypeRole_myRole" file-path="tiendaOnline3.bpel" interface-name="ns4:PedidoLibrosPortType" name="endpoint5" process-name="tiendaOnline3" service-name="ns6:PartnerLink1"/>
+        <endpoint display-name="WSPagos" endpoint-name="WSPagosRole_partnerRole" file-path="tiendaOnline3.bpel" interface-name="ns2:WSPagos" name="endpoint6" process-name="tiendaOnline3" service-name="ns6:WSPagos"/>
+        <endpoint display-name="WSAlmacen" endpoint-name="WSAlmacenRole_partnerRole" file-path="tiendaOnline3.bpel" interface-name="ns1:WSAlmacen" name="endpoint7" process-name="tiendaOnline3" service-name="ns6:WSAlmacen"/>
+        <endpoint display-name="WSEntregas" endpoint-name="WSEntregasRole_partnerRole" file-path="tiendaOnline3.bpel" interface-name="ns5:WSEntregas" name="endpoint8" process-name="tiendaOnline3" service-name="ns6:WSEntregas"/>
     </endpoints>
     <service-units>
         <service-engine-service-unit artifacts-zip="TiendaOnline3.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="TiendaOnline4-TiendaOnline3" unit-name="TiendaOnline3" unknown="false" x="151" y="99">
-            <provides endpoint="endpoint4"/>
-            <consumes endpoint="endpoint5"/>
+            <provides endpoint="endpoint5"/>
             <consumes endpoint="endpoint6"/>
+            <consumes endpoint="endpoint7"/>
+            <consumes endpoint="endpoint8"/>
         </service-engine-service-unit>
         <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="TiendaOnline4-sun-http-binding" unit-name="sun-http-binding">
             <ports>
@@ -21,12 +24,17 @@
                     <consumes endpoint="endpoint3"/>
                     <provides endpoint="endpoint3"/>
                 </port>
-                <port x="67" y="118">
+                <port x="67" y="197">
                     <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/localhost_8080/WAAlmacen/WSAlmacen.wsdl#xpointer(/definitions/service[@name='WSAlmacen']/port[@name='WSAlmacenPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint1"/>
                     <provides endpoint="endpoint1"/>
                 </port>
                 <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAEntregas/WSEntregas.wsdl#xpointer(/definitions/service[@name='WSEntregas']/port[@name='WSEntregasPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint4"/>
+                    <provides endpoint="endpoint4"/>
+                </port>
+                <port x="67" y="118">
                     <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAPagos/WSPagos.wsdl#xpointer(/definitions/service[@name='WSPagos']/port[@name='WSPagosPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint2"/>
                     <provides endpoint="endpoint2"/>
@@ -35,13 +43,15 @@
         </binding-component-service-unit>
     </service-units>
     <connections>
-        <connection consumer="endpoint6" mode="" provider="endpoint1" route-type="" routing-rule="" state="unchanged"/>
-        <connection consumer="endpoint3" mode="" provider="endpoint4" route-type="direct" routing-rule="" state="new"/>
-        <connection consumer="endpoint5" mode="" provider="endpoint2" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint8" mode="" provider="endpoint4" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint7" mode="" provider="endpoint1" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint3" mode="" provider="endpoint5" route-type="direct" routing-rule="" state="new"/>
+        <connection consumer="endpoint6" mode="" provider="endpoint2" route-type="" routing-rule="" state="unchanged"/>
     </connections>
     <porttypes>
         <link xlink:href="../jbiasa/TiendaOnline4.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/localhost_8080/WAAlmacen/WSAlmacen.wsdl#xpointer(/definitions/portType[@name='WSAlmacen'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAEntregas/WSEntregas.wsdl#xpointer(/definitions/portType[@name='WSEntregas'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAPagos/WSPagos.wsdl#xpointer(/definitions/portType[@name='WSPagos'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/PedidoLibros.wsdl#xpointer(/definitions/portType[@name='PedidoLibrosPortType'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline4.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
@@ -49,12 +59,14 @@
     <bindings>
         <link xlink:href="../jbiasa/TiendaOnline4.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/localhost_8080/WAAlmacen/WSAlmacen.wsdl#xpointer(/definitions/binding[@name='WSAlmacenPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAEntregas/WSEntregas.wsdl#xpointer(/definitions/binding[@name='WSEntregasPortBinding'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAPagos/WSPagos.wsdl#xpointer(/definitions/binding[@name='WSPagosPortBinding'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline4.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
     </bindings>
     <services>
         <link xlink:href="../jbiasa/TiendaOnline4.wsdl#xpointer(/definitions/service[@name='TiendaOnline4Service1'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/localhost_8080/WAAlmacen/WSAlmacen.wsdl#xpointer(/definitions/service[@name='WSAlmacen'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAEntregas/WSEntregas.wsdl#xpointer(/definitions/service[@name='WSEntregas'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline3/localhost_8080/WAPagos/WSPagos.wsdl#xpointer(/definitions/service[@name='WSPagos'])" xlink:type="simple"/>
         <link xlink:href="../jbiServiceUnits/TiendaOnline4.wsdl#xpointer(/definitions/service[@name='TiendaOnline4Service1'])" xlink:type="simple"/>
     </services>

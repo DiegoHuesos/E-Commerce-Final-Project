@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns1="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3" xmlns:ns2="http://wsalmacen/" xmlns:ns3="TiendaOnline4" xmlns:ns4="http://wspagos/" xmlns:ns5="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns1="http://enterprise.netbeans.org/bpel/TiendaOnline3/tiendaOnline3" xmlns:ns2="http://wsentregas/" xmlns:ns3="http://wsalmacen/" xmlns:ns4="TiendaOnline4" xmlns:ns5="http://wspagos/" xmlns:ns6="http://j2ee.netbeans.org/wsdl/TiendaOnline3/src/PedidoLibros" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
     <service-assembly>
         <identification>
             <name>TiendaOnline4</name>
@@ -27,35 +27,44 @@
         </service-unit>
         <connections>
             <connection>
-                <consumer endpoint-name="WSAlmacenRole_partnerRole" service-name="ns1:WSAlmacen"/>
-                <provider endpoint-name="WSAlmacenPort" service-name="ns2:WSAlmacen"/>
+                <consumer endpoint-name="WSEntregasRole_partnerRole" service-name="ns1:WSEntregas"/>
+                <provider endpoint-name="WSEntregasPort" service-name="ns2:WSEntregas"/>
             </connection>
             <connection>
-                <consumer endpoint-name="casaPort1" service-name="ns3:TiendaOnline4Service1"/>
+                <consumer endpoint-name="WSAlmacenRole_partnerRole" service-name="ns1:WSAlmacen"/>
+                <provider endpoint-name="WSAlmacenPort" service-name="ns3:WSAlmacen"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="casaPort1" service-name="ns4:TiendaOnline4Service1"/>
                 <provider endpoint-name="PedidoLibrosPortTypeRole_myRole" service-name="ns1:PartnerLink1"/>
             </connection>
             <connection>
                 <consumer endpoint-name="WSPagosRole_partnerRole" service-name="ns1:WSPagos"/>
-                <provider endpoint-name="WSPagosPort" service-name="ns4:WSPagos"/>
+                <provider endpoint-name="WSPagosPort" service-name="ns5:WSPagos"/>
             </connection>
         </connections>
         <route-types xmlns="http://www.open-esb.net/xml/ns/jbi">
+            <source endpoint-name="WSEntregasRole_partnerRole" mode="local" routing-rule="default" service-name="ns1:WSEntregas">direct</source>
             <source endpoint-name="WSAlmacenRole_partnerRole" mode="local" routing-rule="default" service-name="ns1:WSAlmacen">direct</source>
-            <source endpoint-name="casaPort1" mode="local" routing-rule="default" service-name="ns3:TiendaOnline4Service1">direct</source>
+            <source endpoint-name="casaPort1" mode="local" routing-rule="default" service-name="ns4:TiendaOnline4Service1">direct</source>
             <source endpoint-name="WSPagosRole_partnerRole" mode="local" routing-rule="default" service-name="ns1:WSPagos">direct</source>
         </route-types>
         <interface-mapping xmlns="http://www.open-esb.net/xml/ns/jbi">
             <implementation>
                 <by-provider endpoint-name="PedidoLibrosPortTypeRole_myRole" service-name="ns1:PartnerLink1"/>
-                <interface name="ns5:PedidoLibrosPortType"/>
+                <interface name="ns6:PedidoLibrosPortType"/>
             </implementation>
             <implementation>
-                <by-provider endpoint-name="WSAlmacenPort" service-name="ns2:WSAlmacen"/>
-                <interface name="ns2:WSAlmacen"/>
+                <by-provider endpoint-name="WSEntregasPort" service-name="ns2:WSEntregas"/>
+                <interface name="ns2:WSEntregas"/>
             </implementation>
             <implementation>
-                <by-provider endpoint-name="WSPagosPort" service-name="ns4:WSPagos"/>
-                <interface name="ns4:WSPagos"/>
+                <by-provider endpoint-name="WSAlmacenPort" service-name="ns3:WSAlmacen"/>
+                <interface name="ns3:WSAlmacen"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WSPagosPort" service-name="ns5:WSPagos"/>
+                <interface name="ns5:WSPagos"/>
             </implementation>
         </interface-mapping>
     </service-assembly>
